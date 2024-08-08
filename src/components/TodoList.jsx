@@ -13,6 +13,7 @@ export default class TodoList extends Component {
         }
 
         this.retreiveTodos = this.retreiveTodos.bind(this);
+        this.deleteTodo = this.deleteTodo.bind(this);
     }
 
     componentDidMount() {
@@ -31,6 +32,13 @@ export default class TodoList extends Component {
         
     }
 
+    deleteTodo = (id) => {
+        todoService.deleteTodo(id)
+        .then(response => {
+            console.log(response.data);
+        }).catch(error => {console.log(error);});
+    }
+
     render() {
         return(
             <div>
@@ -42,6 +50,8 @@ export default class TodoList extends Component {
                                 <th>Id</th>
                                 <th>Title</th>
                                 <th>Completed</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
                             </tr>
                             
                         </thead>
@@ -52,6 +62,15 @@ export default class TodoList extends Component {
                                     <td>{item.id}</td>
                                     <td>{item.title}</td>
                                     <td>{item.completed}</td>
+                                    <td>
+                                        <button className="btn btn-warning">
+                                            Edit Todo
+                                        </button>
+                                    </td>
+                                    <td>
+                                        <button className="btn btn-danger" 
+                                        onClick={this.deleteTodo(item.id)}>Delete Todo</button>
+                                    </td>
                                 </tr>
                             )) : null}
                         </tbody>
