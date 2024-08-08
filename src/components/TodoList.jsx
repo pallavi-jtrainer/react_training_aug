@@ -1,8 +1,11 @@
 import { Component } from "react"
 import todoService from "../services/todo-service";
+import withRouter from "../withRouter";
+import { Link } from "react-router-dom";
+import { createHashHistory } from 'history'
 
-export default class TodoList extends Component { 
 
+class TodoList extends Component { 
     constructor(props) {
         super(props);
 
@@ -12,10 +15,13 @@ export default class TodoList extends Component {
             currentIndex: -1
         }
 
-        this.retreiveTodos = this.retreiveTodos.bind(this);
-        this.deleteTodo = this.deleteTodo.bind(this);
-    }
+        this.history = createHashHistory();
 
+        this.retreiveTodos = this.retreiveTodos.bind(this);
+        // this.deleteTodo = this.deleteTodo.bind(this);
+        this.updateTodo = this.updateTodo.bind(this);
+    }
+    
     componentDidMount() {
         this.retreiveTodos();
     }
@@ -32,11 +38,17 @@ export default class TodoList extends Component {
         
     }
 
-    deleteTodo = (id) => {
-        todoService.deleteTodo(id)
-        .then(response => {
-            console.log(response.data);
-        }).catch(error => {console.log(error);});
+    // deleteTodo = (id) => {
+    //     // console.log('delete method')
+    //     // todoService.deleteTodo(id)
+    //     // .then(response => {
+    //     //     console.log(response.data);
+    //     // }).catch(error => {console.log(error);});
+    // }
+
+    updateTodo = (id) => {
+        // this.props.history.push("/todos/" + id);
+        this.history.push("/todos/" + id);
     }
 
     render() {
@@ -50,8 +62,7 @@ export default class TodoList extends Component {
                                 <th>Id</th>
                                 <th>Title</th>
                                 <th>Completed</th>
-                                <th>Edit</th>
-                                <th>Delete</th>
+                                <th>View Details</th>
                             </tr>
                             
                         </thead>
@@ -61,16 +72,20 @@ export default class TodoList extends Component {
                                     <td>{item.userId}</td>
                                     <td>{item.id}</td>
                                     <td>{item.title}</td>
-                                    <td>{item.completed}</td>
+                                    <td>{item.completed + " "}</td>
                                     <td>
-                                        <button className="btn btn-warning">
-                                            Edit Todo
-                                        </button>
+                                        <Link to={'/todos/' + item.id}>
+                                            <button className="btn btn-warning"
+                                            onClick={this.updateTodo(item.id)}>
+                                                View Details
+                                            </button>
+                                        </Link>
                                     </td>
-                                    <td>
+                                    {/* <td>
                                         <button className="btn btn-danger" 
-                                        onClick={this.deleteTodo(item.id)}>Delete Todo</button>
-                                    </td>
+                                        // onClick={this.deleteTodo(item.id)}>
+                                        >Delete Todo</button>
+                                    </td> */}
                                 </tr>
                             )) : null}
                         </tbody>
@@ -80,3 +95,5 @@ export default class TodoList extends Component {
         )
     }
 }
+
+export default withRouter(TodoList);
