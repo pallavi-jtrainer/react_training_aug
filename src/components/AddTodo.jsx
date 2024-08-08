@@ -49,13 +49,13 @@ export default class AddTodo extends Component {
                                         required
                                         value={this.state.title}/>
                                 </div>
-                                <div className="form-group">
+                                {/* <div className="form-group">
                                     <label htmlFor="id">Completed: </label>
                                     <select className="form-select" value={this.state.completed}>
                                         <option value="true">True</option>
                                         <option value="false">False</option>
                                     </select>
-                                </div>
+                                </div> */}
                                 <div>
                                     <button type="button" className="btn btn-primary">Submit</button>
                                 </div>
