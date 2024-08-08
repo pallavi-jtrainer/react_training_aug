@@ -18,7 +18,13 @@ export default class AddTodo extends Component {
                             name="title"
                         />
                     </div>
-
+                    <div className="form-group">
+                        <select>
+                            <option value="true">true</option>
+                            <option value="false">false</option>
+                        </select>
+                    </div>
+                    
                     <button className="btn btn-success">
                         Submit
                     </button>
